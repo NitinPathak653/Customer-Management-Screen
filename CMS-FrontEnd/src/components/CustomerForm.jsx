@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CustomerForm = ({ addCustomer }) => {
+const CustomerForm = ({ addCustomer, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     phoneNo: "",
@@ -18,7 +18,7 @@ const CustomerForm = ({ addCustomer }) => {
   };
 
   return (
-    <div className='max-w-md mx-auto mt-5 p-6 bg-white rounded-md shadow-md'>
+    <div>
       <h2 className='text-2xl font-bold mb-4'>Add Customer</h2>
       <form onSubmit={handleSubmit}>
         <div className='mb-4'>
@@ -73,10 +73,17 @@ const CustomerForm = ({ addCustomer }) => {
         </div>
 
         <button
-          className='bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800'
           type='submit'
+          className='bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mr-2'
         >
-          Add Customer
+          Save
+        </button>
+        <button
+          type='button'
+          className='bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray'
+          onClick={onClose}
+        >
+          Cancel
         </button>
       </form>
     </div>
