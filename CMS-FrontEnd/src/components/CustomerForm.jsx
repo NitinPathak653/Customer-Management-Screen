@@ -77,13 +77,13 @@ const CustomerForm = ({ addCustomer, onClose }) => {
 
         <button
           type='submit'
-          className='bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mr-2'
+          className='bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mr-2 transition duration-300 ease-in-out transform hover:scale-105'
         >
           Save
         </button>
         <button
           type='button'
-          className='bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray'
+          className='bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray transition duration-300 ease-in-out transform hover:scale-105'
           onClick={onClose}
         >
           Cancel
