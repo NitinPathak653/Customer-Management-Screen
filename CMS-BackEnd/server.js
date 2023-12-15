@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { query } = require("express");
 // Creating an Express App
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -44,14 +45,18 @@ app.post("/api/createCustomer", async (req, res) => {
   }
 });
 
-// Implement pagination
 app.get("/api/getCustomerList", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = 7;
     const skip = (page - 1) * pageSize;
+    const sortBy = req.query.sortBy || "creationDate"; // default sorting by creationDate
+    const sortOrder = req.query.sortOrder === "desc" ? -1 : 1;
 
-    const customers = await Customer.find().skip(skip).limit(pageSize);
+    const customers = await Customer.find()
+      .sort({ [sortBy]: sortOrder })
+      .skip(skip)
+      .limit(pageSize);
 
     const totalCustomers = await Customer.countDocuments();
 

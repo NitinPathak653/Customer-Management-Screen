@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
-const CustomerList = ({ customers }) => {
+const CustomerList = ({ customers, onSort }) => {
+  const [sortDirection, setSortDirection] = useState("asc");
+
+  const handleSort = (column) => {
+    setSortDirection((prevDirection) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
+    onSort(column, sortDirection);
+  };
+
   return (
     <div className='mt-5'>
       <h2 className='text-3xl font-extrabold text-center text-indigo-700 mb-6'>
@@ -11,10 +20,26 @@ const CustomerList = ({ customers }) => {
         <table className='w-full table-auto'>
           <thead>
             <tr className='bg-gray-800 text-white'>
-              <th className='border p-2'>Name</th>
+              <th className='border p-2'>
+                Name
+                <button
+                  className='ml-2 focus:outline-none'
+                  onClick={() => handleSort("name")}
+                >
+                  {sortDirection === "asc" ? "▲" : "▼"}
+                </button>
+              </th>
               <th className='border p-2'>Phone Number</th>
               <th className='border p-2'>Email</th>
-              <th className='border p-2'>Creation Date</th>
+              <th className='border p-2'>
+                Creation Date
+                <button
+                  className='ml-2 focus:outline-none'
+                  onClick={() => handleSort("creationDate")}
+                >
+                  {sortDirection === "asc" ? "▲" : "▼"}
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>

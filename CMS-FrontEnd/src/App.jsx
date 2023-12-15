@@ -9,6 +9,8 @@ const App = () => {
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [sortColumn, setSortColumn] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const handleCreateCustomerForm = () => {
     setShowCustomerForm(true);
@@ -18,26 +20,32 @@ const App = () => {
     setShowCustomerForm(false);
   };
 
+  const handleSort = (column, order) => {
+    setSortColumn(column);
+    setSortOrder(order);
+    // Fetch paginated data with sorting when currentPage or sort options change
+    fetch(
+      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${column}&sortOrder=${order}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCustomers(data.customers);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  };
+
   useEffect(() => {
     // Fetch initial page
-    fetch("http://localhost:3000/api/getCustomerList?page=1")
+    fetch(
+      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setCustomers(data.customers);
         setTotalPages(Math.ceil(data.totalCustomers / 7));
       })
       .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
-  useEffect(() => {
-    // Fetch paginated data when currentPage changes
-    fetch(`http://localhost:3000/api/getCustomerList?page=${currentPage}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCustomers(data.customers);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [currentPage]);
+  }, [currentPage, sortColumn, sortOrder]);
 
   const addCustomer = (formData) => {
     fetch("http://localhost:3000/api/createCustomer", {
@@ -62,7 +70,7 @@ const App = () => {
       <div>
         <Header onCreateCustomer={handleCreateCustomerForm} />
         <div className={` ${showCustomerForm ? "blur" : ""}`}>
-          <CustomerList customers={customers} />
+          <CustomerList customers={customers} onSort={handleSort} />
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
