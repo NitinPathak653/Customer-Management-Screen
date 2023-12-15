@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import CustomerForm from "./components/CustomerForm";
 import CustomerList from "./components/CustomerList";
 import Header from "./components/Header";
+import Pagination from "./components/Pagination";
 
 const App = () => {
   const [customers, setCustomers] = useState([]);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleCreateCustomerForm = () => {
     setShowCustomerForm(true);
@@ -16,11 +19,25 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/getCustomerList")
+    // Fetch initial page
+    fetch("http://localhost:3000/api/getCustomerList?page=1")
       .then((res) => res.json())
-      .then((data) => setCustomers(data))
+      .then((data) => {
+        setCustomers(data.customers);
+        setTotalPages(Math.ceil(data.totalCustomers / 7));
+      })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+
+  useEffect(() => {
+    // Fetch paginated data when currentPage changes
+    fetch(`http://localhost:3000/api/getCustomerList?page=${currentPage}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCustomers(data.customers);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [currentPage]);
 
   const addCustomer = (formData) => {
     fetch("http://localhost:3000/api/createCustomer", {
@@ -43,6 +60,11 @@ const App = () => {
         <Header onCreateCustomer={handleCreateCustomerForm} />
         <div className={` ${showCustomerForm ? "blur" : ""}`}>
           <CustomerList customers={customers} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
         {showCustomerForm && (
           <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>

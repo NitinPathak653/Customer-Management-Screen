@@ -39,10 +39,18 @@ app.post("/api/createCustomer", async (req, res) => {
   }
 });
 
+// Implement pagination
 app.get("/api/getCustomerList", async (req, res) => {
   try {
-    const customers = await Customer.find();
-    res.status(200).json(customers);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 7;
+    const skip = (page - 1) * pageSize;
+
+    const customers = await Customer.find().skip(skip).limit(pageSize);
+
+    const totalCustomers = await Customer.countDocuments();
+
+    res.status(200).json({ customers, totalCustomers });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
