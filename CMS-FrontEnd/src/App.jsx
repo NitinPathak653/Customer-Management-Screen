@@ -48,7 +48,10 @@ const App = () => {
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => setCustomers([...customers, data]))
+      .then((data) => {
+        // Update the total pages based on the total customers
+        setTotalPages(Math.ceil(data.totalCustomers / 7));
+      })
       .catch((error) => console.error("Error adding customer:", error));
 
     handleFormClose();

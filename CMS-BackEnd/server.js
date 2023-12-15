@@ -28,12 +28,17 @@ const customerSchema = new mongoose.Schema({
 const Customer = mongoose.model("Customer", customerSchema);
 
 // Defining REST APIs
+
 app.post("/api/createCustomer", async (req, res) => {
   try {
     const { name, phoneNo, email, creationDate } = req.body;
     const newCustomer = new Customer({ name, phoneNo, email, creationDate });
     await newCustomer.save();
-    res.status(201).json(newCustomer);
+
+    // Fetch the total number of customers after adding the new one
+    const totalCustomers = await Customer.countDocuments();
+
+    res.status(201).json({ newCustomer, totalCustomers });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
