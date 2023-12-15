@@ -41,7 +41,7 @@ const App = () => {
     <>
       <div>
         <Header onCreateCustomer={handleCreateCustomerForm} />
-        <div className={`bg-gray-300 ${showCustomerForm ? "blur" : ""}`}>
+        <div className={` ${showCustomerForm ? "blur" : ""}`}>
           <CustomerList customers={customers} />
         </div>
         {showCustomerForm && (

@@ -33,6 +33,7 @@ const CustomerForm = ({ addCustomer, onClose }) => {
             type='text'
             id='name'
             name='name'
+            autocomplete='off'
             value={formData.name}
             onChange={handleChange}
           />
@@ -50,6 +51,7 @@ const CustomerForm = ({ addCustomer, onClose }) => {
             type='text'
             id='phoneNo'
             name='phoneNo'
+            autocomplete='off'
             value={formData.phoneNo}
             onChange={handleChange}
           />
@@ -67,6 +69,7 @@ const CustomerForm = ({ addCustomer, onClose }) => {
             type='email'
             id='email'
             name='email'
+            autocomplete='off'
             value={formData.email}
             onChange={handleChange}
           />
