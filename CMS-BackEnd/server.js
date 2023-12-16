@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { query } = require("express");
+
 // Creating an Express App
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,11 +13,15 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Connecting to MongoDB using Mongoose
-mongoose.connect("mongodb://127.0.0.1:27017/customerDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Connecting to MongoDB Atlas Database
+// local database URL - mongodb://127.0.0.1:27017/customerDB
+mongoose.connect(
+  "mongodb+srv://nitinpathak653:230901@customer.unf47qr.mongodb.net/?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 // Define Customer Schema and Model
 const customerSchema = new mongoose.Schema({

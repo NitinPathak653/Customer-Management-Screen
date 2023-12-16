@@ -6,6 +6,7 @@ import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
 
 const App = () => {
+  // Define all the required state variables
   const [customers, setCustomers] = useState([]);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,8 +14,8 @@ const App = () => {
   const [sortColumn, setSortColumn] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
+  // Method for handling search by customerName that Fetch data based on search term
   const handleSearchChange = (searchTerm) => {
-    // Fetch data based on search term
     fetch(
       `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`
     )
@@ -26,8 +27,8 @@ const App = () => {
       .catch((error) => console.error("Error fetching data:", error));
   };
 
+  // Method for data fetching without search term
   const handleClearSearch = () => {
-    // Fetch data without search term
     fetch(
       `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
     )
@@ -47,10 +48,10 @@ const App = () => {
     setShowCustomerForm(false);
   };
 
+  // Method for handling sort functionality and Fetch paginated data with sorting when currentPage or sort options change
   const handleSort = (column, order) => {
     setSortColumn(column);
     setSortOrder(order);
-    // Fetch paginated data with sorting when currentPage or sort options change
     fetch(
       `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${column}&sortOrder=${order}`
     )
@@ -61,8 +62,8 @@ const App = () => {
       .catch((error) => console.error("Error fetching data:", error));
   };
 
+  // Fetch initial page -The effect will be executed when any of the dependencies change.
   useEffect(() => {
-    // Fetch initial page
     fetch(
       `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
     )
@@ -74,6 +75,7 @@ const App = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, [currentPage, sortColumn, sortOrder]);
 
+  // Method to add newCustomer to database
   const addCustomer = (formData) => {
     fetch("http://localhost:3000/api/createCustomer", {
       method: "POST",

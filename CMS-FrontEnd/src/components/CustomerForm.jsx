@@ -7,10 +7,12 @@ const CustomerForm = ({ addCustomer, onClose }) => {
     email: "",
   });
 
+  // handling form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // event handler for submitting a form
   const handleSubmit = (e) => {
     e.preventDefault();
     addCustomer(formData);

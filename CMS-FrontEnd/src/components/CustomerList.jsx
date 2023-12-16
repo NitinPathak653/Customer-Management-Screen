@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const CustomerList = ({ customers, onSort }) => {
   const [sortDirection, setSortDirection] = useState("asc");
 
+  // Method for handling Sorting
   const handleSort = (column) => {
     setSortDirection((prevDirection) =>
       prevDirection === "asc" ? "desc" : "asc"

@@ -5,13 +5,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const pageNumbers = [];
     const maxVisiblePages = 3;
 
+    // If total pages are less than or equal to maxVisiblePages then show all page numbers
     if (totalPages <= maxVisiblePages) {
-      // If total pages are less than or equal to maxVisiblePages, show all page numbers
       for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
       }
     } else {
-      // If total pages are more than maxVisiblePages, show a subset of pages
+      // If total pages are more than maxVisiblePages then show a subset of pages
       const startPage = Math.max(
         1,
         currentPage - Math.floor(maxVisiblePages / 2)
@@ -21,7 +21,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       if (startPage > 1) {
         pageNumbers.push(1);
         if (startPage > 2) {
-          pageNumbers.push("..."); // Display ... if there are gaps
+          pageNumbers.push("...");
         }
       }
 
@@ -31,7 +31,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
-          pageNumbers.push("..."); // Display ... if there are gaps
+          pageNumbers.push("...");
         }
         pageNumbers.push(totalPages);
       }
