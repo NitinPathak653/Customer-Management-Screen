@@ -12,10 +12,6 @@ const CustomerList = ({ customers, onSort }) => {
 
   return (
     <div className='mt-5'>
-      <h2 className='text-3xl font-extrabold text-center text-indigo-700 mb-6'>
-        Explore Our Customers
-      </h2>
-
       <div className='overflow-x-auto'>
         <table className='w-full table-auto'>
           <thead>

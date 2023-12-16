@@ -50,15 +50,21 @@ app.get("/api/getCustomerList", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const pageSize = 7;
     const skip = (page - 1) * pageSize;
-    const sortBy = req.query.sortBy || "creationDate"; // default sorting by creationDate
+    const sortBy = req.query.sortBy || "creationDate";
     const sortOrder = req.query.sortOrder === "desc" ? -1 : 1;
 
-    const customers = await Customer.find()
+    let query = {}; // Default to empty query
+
+    if (req.query.searchTerm) {
+      query.name = { $regex: req.query.searchTerm, $options: "i" };
+    }
+
+    const customers = await Customer.find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(pageSize);
 
-    const totalCustomers = await Customer.countDocuments();
+    const totalCustomers = await Customer.countDocuments(query);
 
     res.status(200).json({ customers, totalCustomers });
   } catch (error) {
