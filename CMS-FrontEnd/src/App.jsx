@@ -13,9 +13,14 @@ const App = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [sortColumn, setSortColumn] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Method for handling search by customerName that Fetch data based on search term
   const handleSearchChange = (searchTerm) => {
+    if (searchTerm === "") {
+      return;
+    }
+
     fetch(
       `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`
     )
@@ -62,8 +67,8 @@ const App = () => {
       .catch((error) => console.error("Error fetching data:", error));
   };
 
-  // Fetch initial page -The effect will be executed when any of the dependencies change.
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
     )
@@ -72,7 +77,8 @@ const App = () => {
         setCustomers(data.customers);
         setTotalPages(Math.ceil(data.totalCustomers / 7));
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching data:", error))
+      .finally(() => setIsLoading(false));
   }, [currentPage, sortColumn, sortOrder]);
 
   // Method to add newCustomer to database
@@ -86,7 +92,6 @@ const App = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // Update the total pages based on the total customers
         setTotalPages(Math.ceil(data.totalCustomers / 7));
       })
       .catch((error) => console.error("Error adding customer:", error));
@@ -110,7 +115,11 @@ const App = () => {
           />
 
           <div className='bg-white p-6 mt-4 rounded-md shadow-md'>
-            <CustomerList customers={customers} onSort={handleSort} />
+            <CustomerList
+              customers={customers}
+              onSort={handleSort}
+              isLoading={isLoading}
+            />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

@@ -1,15 +1,19 @@
 import React, { useState } from "react";
+import LoadingSkeleton from "./LoadingSkeleton";
 
-const CustomerList = ({ customers, onSort }) => {
+const CustomerList = ({ customers, onSort, isLoading }) => {
   const [sortDirection, setSortDirection] = useState("asc");
 
   // Method for handling Sorting
   const handleSort = (column) => {
-    setSortDirection((prevDirection) =>
-      prevDirection === "asc" ? "desc" : "asc"
-    );
-    onSort(column, sortDirection);
+    const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newSortDirection);
+    onSort(column, newSortDirection);
   };
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className='mt-5'>

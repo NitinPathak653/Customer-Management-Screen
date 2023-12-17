@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 // Connecting to MongoDB Atlas Database
 // local database URL - mongodb://127.0.0.1:27017/customerDB
+//
 mongoose.connect("", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
