@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { query } = require("express");
+require("dotenv").config();
 
 // Creating an Express App
 const app = express();
@@ -14,9 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connecting to MongoDB Atlas Database
-// local database URL - mongodb://127.0.0.1:27017/customerDB
-//
-mongoose.connect("", {
+mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
