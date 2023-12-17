@@ -5,7 +5,7 @@ const SearchBar = ({ onSearchChange, onClear }) => {
 
   useEffect(() => {
     onSearchChange(searchTerm);
-  }, [searchTerm, onSearchChange]);
+  }, [searchTerm]);
 
   const handleClear = () => {
     setSearchTerm("");

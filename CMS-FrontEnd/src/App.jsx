@@ -6,7 +6,7 @@ import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
 
 const App = () => {
-  // Define all the required state variables
+  // all the required state variables
   const [customers, setCustomers] = useState([]);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
