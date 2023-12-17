@@ -18,11 +18,12 @@ const App = () => {
   // Method for handling search by customerName that Fetch data based on search term
   const handleSearchChange = (searchTerm) => {
     if (searchTerm === "") {
+      handleClearSearch();
       return;
     }
 
     fetch(
-      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`
+      `http://localhost:3000/api/getCustomerList?page=1&sortBy=${sortColumn}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`
     )
       .then((res) => res.json())
       .then((data) => {
