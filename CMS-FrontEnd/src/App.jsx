@@ -6,6 +6,7 @@ import Pagination from "./components/Pagination";
 import SearchBar from "./components/SearchBar";
 
 const App = () => {
+  const ServerUrl = import.meta.env.SERVER_URL;
   // all the required state variables
   const [customers, setCustomers] = useState([]);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
@@ -23,7 +24,7 @@ const App = () => {
     }
 
     fetch(
-      `http://localhost:3000/api/getCustomerList?page=1&sortBy=${sortColumn}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`
+      `${ServerUrl}/api/getCustomerList?page=1&sortBy=${sortColumn}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -36,7 +37,7 @@ const App = () => {
   // Method for data fetching without search term
   const handleClearSearch = () => {
     fetch(
-      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
+      `${ServerUrl}/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -60,7 +61,7 @@ const App = () => {
     setSortColumn(column);
     setSortOrder(order);
     fetch(
-      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${column}&sortOrder=${order}`
+      `${ServerUrl}/api/getCustomerList?page=${currentPage}&sortBy=${column}&sortOrder=${order}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -71,7 +72,7 @@ const App = () => {
 
   // Method to add newCustomer to database
   const addCustomer = (formData) => {
-    fetch("http://localhost:3000/api/createCustomer", {
+    fetch(`${ServerUrl}/api/createCustomer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +91,7 @@ const App = () => {
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
+      `${ServerUrl}/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
     )
       .then((res) => res.json())
       .then((data) => {
