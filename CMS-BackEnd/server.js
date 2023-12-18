@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Connecting to MongoDB Atlas Database
+// Connecting to MongoDB Database
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -27,7 +27,6 @@ const customerSchema = new mongoose.Schema({
   email: String,
   creationDate: { type: Date, default: Date.now },
 });
-
 const Customer = mongoose.model("Customer", customerSchema);
 
 // Defining REST APIs
@@ -55,7 +54,7 @@ app.get("/api/getCustomerList", async (req, res) => {
     const sortBy = req.query.sortBy || "creationDate";
     const sortOrder = req.query.sortOrder === "desc" ? -1 : 1;
 
-    let query = {}; // Default to empty query
+    let query = {};
 
     if (req.query.searchTerm) {
       query.name = { $regex: req.query.searchTerm, $options: "i" };

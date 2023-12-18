@@ -15,7 +15,7 @@ const App = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Method for handling search by customerName that Fetch data based on search term
+  // Method for handling search that Fetch data based on search term
   const handleSearchChange = (searchTerm) => {
     if (searchTerm === "") {
       handleClearSearch();
@@ -46,6 +46,7 @@ const App = () => {
       .catch((error) => console.error("Error fetching data:", error));
   };
 
+  // Methods for set customerForm state
   const handleCreateCustomerForm = () => {
     setShowCustomerForm(true);
   };
@@ -68,20 +69,6 @@ const App = () => {
       .catch((error) => console.error("Error fetching data:", error));
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(
-      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setCustomers(data.customers);
-        setTotalPages(Math.ceil(data.totalCustomers / 7));
-      })
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => setIsLoading(false));
-  }, [currentPage, sortColumn, sortOrder]);
-
   // Method to add newCustomer to database
   const addCustomer = (formData) => {
     fetch("http://localhost:3000/api/createCustomer", {
@@ -99,6 +86,20 @@ const App = () => {
 
     handleFormClose();
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(
+      `http://localhost:3000/api/getCustomerList?page=${currentPage}&sortBy=${sortColumn}&sortOrder=${sortOrder}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCustomers(data.customers);
+        setTotalPages(Math.ceil(data.totalCustomers / 7));
+      })
+      .catch((error) => console.error("Error fetching data:", error))
+      .finally(() => setIsLoading(false));
+  }, [currentPage, sortColumn, sortOrder]);
 
   return (
     <>
