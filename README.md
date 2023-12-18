@@ -98,4 +98,4 @@ The application is built using the following technologies:
 
 The application is deployed and accessible at the following URL:
 
-[https://cmsfrontend-gi26pkte9-nitinpathak7.vercel.app/](https://cmsfrontend-gi26pkte9-nitinpathak7.vercel.app)
+[https://cmsfrontend-mu.vercel.app/](https://cmsfrontend-mu.vercel.app/)
